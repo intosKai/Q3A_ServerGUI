@@ -1,6 +1,6 @@
 #GUI for setting up and running Quake 3: Arena Server
 
-Features:
+###Features:
 - Set your IP from list
 - Set the required port
 - Set the name of server
@@ -11,5 +11,6 @@ Features:
  
 ###Versions
 - master: 0.1.1
-- future: 0.1.2 (not now)
+- future: 0.1.2 *(not now)*
+
 ###Copyright 2015 intosKai(Petr Ivanov)
