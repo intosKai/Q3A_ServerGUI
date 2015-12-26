@@ -36,8 +36,7 @@ namespace quake_ServerStarter
         {
             ///Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
             ///To test another language
-
-
+            InitAllVars();
             InitializeComponent();
             #region Сhecks
             if (!File.Exists("quake3.exe"))
@@ -45,6 +44,7 @@ namespace quake_ServerStarter
                 MessageBox.Show("Quake3.exe was not found!", LocRM.GetString("strError"));
                 Environment.Exit(0);
             }
+
             #endregion
             #region LAN's IP 
             host = Dns.GetHostName();
@@ -53,10 +53,8 @@ namespace quake_ServerStarter
             cbAddreses.Items.AddRange(addr);
             #endregion
             #region InitsAndLoads
-            InitAllVars();
             loadSettingsFromFile();
             #endregion
-
         }
 
 
