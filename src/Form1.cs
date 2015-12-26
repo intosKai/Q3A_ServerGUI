@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
-using System.Threading;
 #endregion
 
 namespace quake_ServerStarter
@@ -22,7 +21,7 @@ namespace quake_ServerStarter
         string cfgPath; //full path to .cfg file
         string serverPath; //directory with server
         string parametrs; //str with all params to start .exe
-        string help;
+        string about;
 
         bool isRun;
 
@@ -31,7 +30,7 @@ namespace quake_ServerStarter
         public Form1()
         {
             InitializeComponent();
-            #region checks
+            #region Сhecks
             if (!File.Exists("quake3.exe"))
             {
                 MessageBox.Show("Quake3.exe was not found!", "Error!");
@@ -56,7 +55,8 @@ namespace quake_ServerStarter
         {
             //strings
             serverPath = Environment.CurrentDirectory;
-            help = String.Format("");
+            about = String.Format("Build version: {0}\n",
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             //bools
             isRun = false;
@@ -135,6 +135,8 @@ namespace quake_ServerStarter
                 }
                 sReader.Close();
             }
+            else
+                cbAddreses.SelectedIndex = 0;
         }
         private void btnSetCfg_Click(object sender, EventArgs e)
         {
@@ -197,11 +199,9 @@ namespace quake_ServerStarter
                 tbHostName.Text);
             sWriter.Close();
         }
-
         private void btnHelp_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show(help, "Help");
+            MessageBox.Show(about, "About");
         }
     }
 }

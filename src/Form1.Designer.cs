@@ -37,7 +37,7 @@
             this.tbCfgName = new System.Windows.Forms.TextBox();
             this.btnSetCfg = new System.Windows.Forms.Button();
             this.openfdialog = new System.Windows.Forms.OpenFileDialog();
-            this.btnHelp = new System.Windows.Forms.Button();
+            this.btnAbout = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -127,17 +127,17 @@
             this.openfdialog.FileName = "openFileDialog1";
             this.openfdialog.Filter = "CFG Files|*.cfg";
             // 
-            // btnHelp
+            // btnAbout
             // 
-            this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHelp.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnHelp.Location = new System.Drawing.Point(12, 175);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(75, 23);
-            this.btnHelp.TabIndex = 8;
-            this.btnHelp.Text = "Help";
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            this.btnAbout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAbout.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnAbout.Location = new System.Drawing.Point(12, 175);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(75, 23);
+            this.btnAbout.TabIndex = 8;
+            this.btnAbout.Text = "About";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // btnSave
             // 
@@ -197,13 +197,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.WindowText;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(425, 210);
+            this.ClientSize = new System.Drawing.Size(425, 211);
             this.Controls.Add(this.tbHostName);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnHelp);
+            this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.btnSetCfg);
             this.Controls.Add(this.tbCfgName);
             this.Controls.Add(this.tbPort);
@@ -231,7 +231,7 @@
         private System.Windows.Forms.TextBox tbCfgName;
         private System.Windows.Forms.Button btnSetCfg;
         private System.Windows.Forms.OpenFileDialog openfdialog;
-        private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
