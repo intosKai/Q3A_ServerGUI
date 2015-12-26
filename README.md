@@ -1,6 +1,6 @@
 #GUI for setting up and running Quake 3: Arena Server
 
-###Features:
+###Features
 - Set your IP from list
 - Set the required port
 - Set the name of server
