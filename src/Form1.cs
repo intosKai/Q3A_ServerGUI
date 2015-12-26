@@ -4,6 +4,10 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using System.Resources;
+
+using System.Threading;
+using System.Globalization;
 #endregion
 
 namespace quake_ServerStarter
@@ -16,6 +20,7 @@ namespace quake_ServerStarter
         Process quake;
         StreamWriter sWriter;
         StreamReader sReader;
+        ResourceManager LocRM;
 
         string host; //dns host name
         string cfgPath; //full path to .cfg file
@@ -29,11 +34,15 @@ namespace quake_ServerStarter
         //public
         public Form1()
         {
+            ///Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+            ///To test another language
+
+
             InitializeComponent();
             #region Сhecks
             if (!File.Exists("quake3.exe"))
             {
-                MessageBox.Show("Quake3.exe was not found!", "Error!");
+                MessageBox.Show("Quake3.exe was not found!", LocRM.GetString("strError"));
                 Environment.Exit(0);
             }
             #endregion
@@ -47,6 +56,7 @@ namespace quake_ServerStarter
             InitAllVars();
             loadSettingsFromFile();
             #endregion
+
         }
 
 
@@ -55,11 +65,14 @@ namespace quake_ServerStarter
         {
             //strings
             serverPath = Environment.CurrentDirectory;
-            about = String.Format("Build version: {0}\n",
+            about = String.Format("Version: {0}\n",
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             //bools
             isRun = false;
+
+            //Localization
+            LocRM = new ResourceManager("quake_ServerStarter.Resources.Strings", typeof(Resources.Strings).Assembly);
         }
         private void loadSettingsFromFile()
         {
@@ -79,14 +92,14 @@ namespace quake_ServerStarter
                             {
                                 if ((cbAddreses.SelectedIndex = cbAddreses.Items.IndexOf(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)))) == -1)
                                 {
-                                    MessageBox.Show("Loaded IP wasn't founded in the available IP list", "WARNING!");
+                                    MessageBox.Show("Loaded IP wasn't founded in the available IP list", LocRM.GetString("strWarning"));
                                     cbAddreses.Items.Add(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)));
                                     cbAddreses.SelectedIndex = cbAddreses.Items.Count - 1;
                                 }
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(ex.Message, "ERROR!");
+                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
                                 cbAddreses.SelectedIndex = 0;
                             }
                             break;
@@ -94,13 +107,13 @@ namespace quake_ServerStarter
                             try
                             {
                                 if ((buff.Length - buff.IndexOf('=') - 1) != 5)
-                                    MessageBox.Show("Port must have 5 numbers!", "WARNING!");
+                                    MessageBox.Show("Port must have 5 numbers!", LocRM.GetString("strWarning"));
                                 else
                                     tbPort.Text = buff.Substring(buff.IndexOf('=')+1);
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(ex.Message, "ERROR!");
+                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
                             }
                             break;
                         case "cfg_name":
@@ -114,7 +127,7 @@ namespace quake_ServerStarter
                                 {
                                     if (!File.Exists(buff.Substring(buff.IndexOf('=')+1)))
                                     {
-                                        MessageBox.Show("Can't load the server .cfg file!\nHe must be located in the one directory with server!", "Error!");
+                                        MessageBox.Show(LocRM.GetString("strCantLoad"), LocRM.GetString("strError"));
                                         break;
                                     }
                                     else
@@ -125,7 +138,7 @@ namespace quake_ServerStarter
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(ex.Message, "ERROR!");
+                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
                             }
                             break;
                         case "hostname":
@@ -140,7 +153,7 @@ namespace quake_ServerStarter
         }
         private void btnSetCfg_Click(object sender, EventArgs e)
         {
-            openfdialog.ShowDialog();
+            if (openfdialog.ShowDialog() == DialogResult.Cancel) return;
             cfgPath = openfdialog.FileName;
             tbCfgName.Text = openfdialog.SafeFileName;
             //copying .cfg to server directory
@@ -150,7 +163,7 @@ namespace quake_ServerStarter
         {
             if (isRun)
             {
-                MessageBox.Show("Server already running!", "Error!");
+                MessageBox.Show(LocRM.GetString("strSerAlrRun"), LocRM.GetString("strError"));
                 return;
             }
 
@@ -182,7 +195,7 @@ namespace quake_ServerStarter
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "FATAL ERROR!");
+                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
             }
             finally
             {
@@ -201,7 +214,7 @@ namespace quake_ServerStarter
         }
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(about, "About");
+            MessageBox.Show(about, LocRM.GetString("strAbout"));
         }
     }
 }
