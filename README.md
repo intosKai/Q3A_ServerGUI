@@ -20,19 +20,19 @@
 
 ###Versions
 
-- master: 0.1.1
+- master: 0.2.1
 
 ###Tasks
 
 * __For v0.2__
 
 - [ ] Full supporting for multilanguage
-- [ ] Add about frame
 - [ ] Refactor code
 
 * __For v0.3__
 
 - [ ] Add in, out, error streams to main form
+- [ ] Add about frame
 - [ ] New formated background image
 
 * __For v0.4__
