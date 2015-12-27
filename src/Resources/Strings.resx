@@ -117,18 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="str" xml:space="preserve">
+    <value />
+  </data>
   <data name="strAbout" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="strCantLoad" xml:space="preserve">
-    <value>Can't load the server .cfg file!\nHe must be located in the one directory with server!</value>
-    <comment>Can't load the server .cfg file!\nHe must be located in the one directory with server!</comment>
+    <value>Can't load the server .cfg file! He must be located in the one directory with server!</value>
+    <comment>Can't load the server .cfg file! He must be located in the one directory with server!</comment>
   </data>
   <data name="strError" xml:space="preserve">
     <value>Error!</value>
   </data>
+  <data name="strNotFoundExe" xml:space="preserve">
+    <value>Quake3.exe was not found!</value>
+  </data>
+  <data name="strNotFoundIP" xml:space="preserve">
+    <value>Loaded IP wasn't founded in the available IP list</value>
+  </data>
+  <data name="strPortOverload" xml:space="preserve">
+    <value>Port must have 5 numbers!</value>
+  </data>
   <data name="strSerAlrRun" xml:space="preserve">
     <value>Server already running!</value>
+  </data>
+  <data name="strVersion" xml:space="preserve">
+    <value>Version</value>
   </data>
   <data name="strWarning" xml:space="preserve">
     <value>Warning!</value>

@@ -61,6 +61,15 @@ namespace quake_ServerStarter.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на .
+        /// </summary>
+        internal static string str {
+            get {
+                return ResourceManager.GetString("str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на About.
         /// </summary>
         internal static string strAbout {
@@ -70,7 +79,7 @@ namespace quake_ServerStarter.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Can&apos;t load the server .cfg file!\nHe must be located in the one directory with server!.
+        ///   Ищет локализованную строку, похожую на Can&apos;t load the server .cfg file! He must be located in the one directory with server!.
         /// </summary>
         internal static string strCantLoad {
             get {
@@ -88,11 +97,47 @@ namespace quake_ServerStarter.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Quake3.exe was not found!.
+        /// </summary>
+        internal static string strNotFoundExe {
+            get {
+                return ResourceManager.GetString("strNotFoundExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Loaded IP wasn&apos;t founded in the available IP list.
+        /// </summary>
+        internal static string strNotFoundIP {
+            get {
+                return ResourceManager.GetString("strNotFoundIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Port must have 5 numbers!.
+        /// </summary>
+        internal static string strPortOverload {
+            get {
+                return ResourceManager.GetString("strPortOverload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Server already running!.
         /// </summary>
         internal static string strSerAlrRun {
             get {
                 return ResourceManager.GetString("strSerAlrRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Version.
+        /// </summary>
+        internal static string strVersion {
+            get {
+                return ResourceManager.GetString("strVersion", resourceCulture);
             }
         }
         

@@ -5,6 +5,7 @@ using System.Net;
 using System.IO;
 using System.Diagnostics;
 using System.Resources;
+using Enum;
 
 using System.Threading;
 using System.Globalization;
@@ -12,7 +13,7 @@ using System.Globalization;
 
 namespace quake_ServerStarter
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         const string iniFile = "params.ini";
 
@@ -32,16 +33,18 @@ namespace quake_ServerStarter
 
 
         //public
-        public Form1()
+        public MainForm()
         {
-            ///Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
-            ///To test another language
-            InitAllVars();
+            //Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+            //To test another language
             InitializeComponent();
+            #region vars_localization
+            LocRM = new ResourceManager("quake_ServerStarter.Resources.Strings", typeof(Resources.Strings).Assembly);
+            #endregion
             #region Сhecks
             if (!File.Exists("quake3.exe"))
             {
-                MessageBox.Show("Quake3.exe was not found!", LocRM.GetString("strError"));
+                Message_Show("strNotFoundExe", DialogType.Error);
                 Environment.Exit(0);
             }
 
@@ -52,26 +55,21 @@ namespace quake_ServerStarter
             addr = Dns.GetHostAddresses(host);
             cbAddreses.Items.AddRange(addr);
             #endregion
-            #region InitsAndLoads
+
             loadSettingsFromFile();
+
+            #region vars_strings
+            serverPath = Environment.CurrentDirectory;
+            about = String.Format(LocRM.GetString("strVersion") + ": {0}\n",
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            #endregion
+            #region vars_bools
+            isRun = false;
             #endregion
         }
 
 
         //private
-        private void InitAllVars()
-        {
-            //strings
-            serverPath = Environment.CurrentDirectory;
-            about = String.Format("Version: {0}\n",
-                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-
-            //bools
-            isRun = false;
-
-            //Localization
-            LocRM = new ResourceManager("quake_ServerStarter.Resources.Strings", typeof(Resources.Strings).Assembly);
-        }
         private void loadSettingsFromFile()
         {
             string buff;
@@ -90,7 +88,7 @@ namespace quake_ServerStarter
                             {
                                 if ((cbAddreses.SelectedIndex = cbAddreses.Items.IndexOf(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)))) == -1)
                                 {
-                                    MessageBox.Show("Loaded IP wasn't founded in the available IP list", LocRM.GetString("strWarning"));
+                                    Message_Show("strNotFoundIP", DialogType.Warning);
                                     cbAddreses.Items.Add(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)));
                                     cbAddreses.SelectedIndex = cbAddreses.Items.Count - 1;
                                 }
@@ -105,7 +103,7 @@ namespace quake_ServerStarter
                             try
                             {
                                 if ((buff.Length - buff.IndexOf('=') - 1) != 5)
-                                    MessageBox.Show("Port must have 5 numbers!", LocRM.GetString("strWarning"));
+                                    Message_Show("strPortOverload", DialogType.Warning);
                                 else
                                     tbPort.Text = buff.Substring(buff.IndexOf('=')+1);
                             }
@@ -125,7 +123,7 @@ namespace quake_ServerStarter
                                 {
                                     if (!File.Exists(buff.Substring(buff.IndexOf('=')+1)))
                                     {
-                                        MessageBox.Show(LocRM.GetString("strCantLoad"), LocRM.GetString("strError"));
+                                        Message_Show("strCantLoad", DialogType.Error);
                                         break;
                                     }
                                     else
@@ -161,10 +159,19 @@ namespace quake_ServerStarter
         {
             if (isRun)
             {
-                MessageBox.Show(LocRM.GetString("strSerAlrRun"), LocRM.GetString("strError"));
+                Message_Show("strSerAlrRun", DialogType.Error);
                 return;
             }
-
+            if (tbPort.Text.Length != 5)
+            {
+                Message_Show("strPortOverload", DialogType.Error);
+                return;
+            }
+            if (!File.Exists(tbCfgName.Text))
+            {
+                Message_Show("strCantLoad", DialogType.Error);
+                return;
+            }
             parametrs = String.Format("+set dedicated 1 +set fs_game osp +set net_ip {0} +set net_port {1} +exec {2} +set sv_hostname {3}", 
                 cbAddreses.SelectedItem.ToString(), 
                 tbPort.Text, 
@@ -213,6 +220,18 @@ namespace quake_ServerStarter
         private void btnHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show(about, LocRM.GetString("strAbout"));
+        }
+        private void Message_Show(string errtext, DialogType type)
+        {
+            switch (type)
+            {
+                case DialogType.Error:
+                    MessageBox.Show(LocRM.GetString(errtext), LocRM.GetString("strError"));
+                    break;
+                case DialogType.Warning:
+                    MessageBox.Show(LocRM.GetString(errtext), LocRM.GetString("strWarning"));
+                    break;
+            }
         }
     }
 }
