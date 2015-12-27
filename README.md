@@ -1,6 +1,6 @@
 #GUI for setting up and running Quake 3: Arena Server
 
-###Features
+##Features
 
 - Set your IP from list
 - Set the required port
@@ -10,7 +10,7 @@
 - Safely run the server
 - Safely stop the server
 
-###Information
+##Information
 
 - Repository doesn't contains the game!
 - Recommended version of Quake 3: Arena is 1.32
@@ -18,20 +18,36 @@
 	- translations into different languages
 	- pull requests with completed tasks
 
-###Versions
+##Versions
 
 - master: 0.1.1
 
-###Tasks
+##Tasks
+
+* ###For v0.2
 
 - [ ] Full supporting for multilanguage
-- [ ] Add in, out, error streams to main form
-- [ ] Acces to game file *(choose avaible maps, etc)*
+- [ ] Add about frame
 - [ ] Refactor code
+
+* ###For v0.3
+
+- [ ] Add in, out, error streams to main form
 - [ ] New formated background image
-- [ ] Testing with other versions of game *(Q3: Open Arena, etc)*
+
+* ###For v0.4
+
+- [ ] Acces to game file _(choose avaible maps, etc)_
+- [ ] Testing with other versions of game _(Q3: Open Arena, etc)_
+
+* ###For v0.5
+
 - [ ] New icon
 - [ ] .cgf creator
-- [ ] Add about frame
+
+* ###For v1.0
+
+- [ ] Fix bags and errors
+- [ ] Release! :boom:
 
 **Copyright 2015 intosKai(Petr Ivanov)**
