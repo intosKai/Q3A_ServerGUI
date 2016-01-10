@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Q3:A Server GUI Beta 0.3")]
+[assembly: AssemblyTitle("Q3:A Server GUI Beta 0.2")]
 [assembly: AssemblyDescription("GUI for setting up and running Quake 3: Arena Server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("intosKai")]
