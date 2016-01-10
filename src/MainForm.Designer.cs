@@ -43,6 +43,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tbHostName = new System.Windows.Forms.TextBox();
+            this.rtbOut = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -52,11 +53,11 @@
             // 
             // cbAddreses
             // 
-            resources.ApplyResources(this.cbAddreses, "cbAddreses");
             this.cbAddreses.BackColor = System.Drawing.SystemColors.WindowText;
             this.cbAddreses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbAddreses.ForeColor = System.Drawing.SystemColors.Window;
             this.cbAddreses.FormattingEnabled = true;
+            resources.ApplyResources(this.cbAddreses, "cbAddreses");
             this.cbAddreses.Name = "cbAddreses";
             // 
             // label2
@@ -73,16 +74,16 @@
             // 
             // tbPort
             // 
-            resources.ApplyResources(this.tbPort, "tbPort");
             this.tbPort.BackColor = System.Drawing.SystemColors.MenuText;
+            resources.ApplyResources(this.tbPort, "tbPort");
             this.tbPort.ForeColor = System.Drawing.SystemColors.Info;
             this.tbPort.Name = "tbPort";
             // 
             // tbCfgName
             // 
-            resources.ApplyResources(this.tbCfgName, "tbCfgName");
             this.tbCfgName.BackColor = System.Drawing.SystemColors.WindowText;
             this.tbCfgName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.tbCfgName, "tbCfgName");
             this.tbCfgName.ForeColor = System.Drawing.SystemColors.Window;
             this.tbCfgName.Name = "tbCfgName";
             this.tbCfgName.ReadOnly = true;
@@ -141,11 +142,22 @@
             resources.ApplyResources(this.tbHostName, "tbHostName");
             this.tbHostName.Name = "tbHostName";
             // 
-            // Form1
+            // rtbOut
+            // 
+            this.rtbOut.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.rtbOut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtbOut.DetectUrls = false;
+            resources.ApplyResources(this.rtbOut, "rtbOut");
+            this.rtbOut.ForeColor = System.Drawing.SystemColors.Window;
+            this.rtbOut.Name = "rtbOut";
+            this.rtbOut.ReadOnly = true;
+            // 
+            // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.WindowText;
+            this.Controls.Add(this.rtbOut);
             this.Controls.Add(this.tbHostName);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnStop);
@@ -161,7 +173,7 @@
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,6 +195,7 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox tbHostName;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RichTextBox rtbOut;
     }
 }
 

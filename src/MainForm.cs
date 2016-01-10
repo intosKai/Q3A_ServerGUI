@@ -6,9 +6,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Resources;
 using Enum;
-
-using System.Threading;
-using System.Globalization;
 #endregion
 
 namespace quake_ServerStarter
@@ -21,124 +18,76 @@ namespace quake_ServerStarter
         Process quake;
         StreamWriter sWriter;
         StreamReader sReader;
-        ResourceManager LocRM;
 
-        string host; //dns host name
+        //Localization resource manager
+        ResourceManager LocRM = new ResourceManager("quake_ServerStarter.Resources.Strings", typeof(Resources.Strings).Assembly);
+
+        string dnsName; //dns host name
         string cfgPath; //full path to .cfg file
-        string serverPath; //directory with server
-        string parametrs; //str with all params to start .exe
+        string serverPath = Environment.CurrentDirectory; //directory with server
+        string options; //str with all options to start Quake3.exe
         string about;
 
-        bool isRun;
+        bool isRun = false;
 
-
-        //public
+        //constructors:
         public MainForm()
         {
-            //Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
             //To test another language
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
+
             InitializeComponent();
-            #region vars_localization
-            LocRM = new ResourceManager("quake_ServerStarter.Resources.Strings", typeof(Resources.Strings).Assembly);
-            #endregion
-            #region Сhecks
-            if (!File.Exists("quake3.exe"))
-            {
-                Message_Show("strNotFoundExe", DialogType.Error);
-                Environment.Exit(0);
-            }
 
-            #endregion
-            #region LAN's IP 
-            host = Dns.GetHostName();
-            cbAddreses.Items.Add(IPAddress.Parse("127.0.0.1"));
-            addr = Dns.GetHostAddresses(host);
-            cbAddreses.Items.AddRange(addr);
-            #endregion
-
+            initIP();
+            execCheck();
             loadSettingsFromFile();
-
-            #region vars_strings
-            serverPath = Environment.CurrentDirectory;
-            about = String.Format(LocRM.GetString("strVersion") + ": {0}\n",
-                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            #endregion
-            #region vars_bools
-            isRun = false;
-            #endregion
         }
 
+        //public:
 
-        //private
+
+        //private:
+        private void execCheck()
+        {
+            if (!File.Exists("quake3.exe"))
+            {
+                MsgShow("strNotFoundExe", DialogType.Error);
+                Environment.Exit(0);
+            }
+        }
+        private void initIP()
+        {
+            //defaul local ip and available
+            dnsName = Dns.GetHostName();
+            cbAddreses.Items.Add(IPAddress.Parse("127.0.0.1"));
+            addr = Dns.GetHostAddresses(dnsName);
+            cbAddreses.Items.AddRange(addr);
+        }
         private void loadSettingsFromFile()
         {
-            string buff;
+            string temp;
             if (File.Exists(iniFile))
             {
                 sReader = new StreamReader(iniFile);
                 while (!sReader.EndOfStream)
                 {
-                    buff = sReader.ReadLine();
-                    switch (buff.Substring(0, buff.IndexOf('=')))
+                    temp = sReader.ReadLine();
+                    switch (temp.Substring(0, temp.IndexOf('=')))
                     {
                         default:
                             break;
                         case "ip_adress":
-                            try //try add finded in .ini file ip adress
-                            {
-                                if ((cbAddreses.SelectedIndex = cbAddreses.Items.IndexOf(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)))) == -1)
-                                {
-                                    Message_Show("strNotFoundIP", DialogType.Warning);
-                                    cbAddreses.Items.Add(IPAddress.Parse(buff.Substring(buff.IndexOf('=') + 1)));
-                                    cbAddreses.SelectedIndex = cbAddreses.Items.Count - 1;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
-                                cbAddreses.SelectedIndex = 0;
-                            }
+                            loadIPFromFile(temp);
                             break;
                         case "port":
-                            try
-                            {
-                                if ((buff.Length - buff.IndexOf('=') - 1) != 5)
-                                    Message_Show("strPortOverload", DialogType.Warning);
-                                else
-                                    tbPort.Text = buff.Substring(buff.IndexOf('=')+1);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
-                            }
+                            loadPortFromFile(temp);
                             break;
                         case "cfg_name":
-                            try
-                            {
-                                if ((buff.Length - buff.IndexOf('=') - 1) == 0) //if string is empty
-                                {
-                                    break;
-                                }
-                                else if (buff.Contains(".cfg")) //if contains ".cfg" extension
-                                {
-                                    if (!File.Exists(buff.Substring(buff.IndexOf('=')+1)))
-                                    {
-                                        Message_Show("strCantLoad", DialogType.Error);
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        tbCfgName.Text = buff.Substring(buff.IndexOf('=') + 1);
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
-                            }
+                            loadCFGNameFromFile(temp);
                             break;
                         case "hostname":
-                            tbHostName.Text = buff.Substring(buff.IndexOf('=') + 1);
+                            //load hostname from file
+                            tbHostName.Text = temp.Substring(temp.IndexOf('=') + 1);
                             break;
                     }
                 }
@@ -146,6 +95,63 @@ namespace quake_ServerStarter
             }
             else
                 cbAddreses.SelectedIndex = 0;
+        }
+        private void loadPortFromFile(string strWithSetting)
+        {
+            try
+            {
+                if ((strWithSetting.Length - strWithSetting.IndexOf('=') - 1) != 5)
+                    MsgShow("strPortOverload", DialogType.Warning);
+                else
+                    tbPort.Text = strWithSetting.Substring(strWithSetting.IndexOf('=') + 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
+            }
+        }
+        private void loadIPFromFile(string strWithSetting)
+        {
+            try //try add finded in .ini file ip adress
+            {
+                if ((cbAddreses.SelectedIndex = cbAddreses.Items.IndexOf(IPAddress.Parse(strWithSetting.Substring(strWithSetting.IndexOf('=') + 1)))) == -1)
+                {
+                    MsgShow("strNotFoundIP", DialogType.Warning);
+                    cbAddreses.Items.Add(IPAddress.Parse(strWithSetting.Substring(strWithSetting.IndexOf('=') + 1)));
+                    cbAddreses.SelectedIndex = cbAddreses.Items.Count - 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
+                cbAddreses.SelectedIndex = 0;
+            }
+        }
+        private void loadCFGNameFromFile(string strWithSetting)
+        {
+            try
+            {
+                if ((strWithSetting.Length - strWithSetting.IndexOf('=') - 1) == 0) //if string is empty
+                {
+                    return;
+                }
+                else if (strWithSetting.Contains(".cfg")) //if contains ".cfg" extension
+                {
+                    if (!File.Exists(strWithSetting.Substring(strWithSetting.IndexOf('=') + 1)))
+                    {
+                        MsgShow("strCantLoad", DialogType.Error);
+                        return;
+                    }
+                    else
+                    {
+                        tbCfgName.Text = strWithSetting.Substring(strWithSetting.IndexOf('=') + 1);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, LocRM.GetString("strError"));
+            }
         }
         private void btnSetCfg_Click(object sender, EventArgs e)
         {
@@ -157,30 +163,38 @@ namespace quake_ServerStarter
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
+
+            #region Checks for safe start
             if (isRun)
             {
-                Message_Show("strSerAlrRun", DialogType.Error);
+                MsgShow("strSerAlrRun", DialogType.Error);
                 return;
             }
             if (tbPort.Text.Length != 5)
             {
-                Message_Show("strPortOverload", DialogType.Error);
+                MsgShow("strPortOverload", DialogType.Error);
                 return;
             }
             if (!File.Exists(tbCfgName.Text))
             {
-                Message_Show("strCantLoad", DialogType.Error);
+                MsgShow("strCantLoad", DialogType.Error);
                 return;
             }
-            parametrs = String.Format("+set dedicated 1 +set fs_game osp +set net_ip {0} +set net_port {1} +exec {2} +set sv_hostname {3}", 
+            #endregion
+
+            quake = new Process();
+            quake.StartInfo.FileName = "Quake3.exe";
+
+            options = String.Format("+set dedicated 1 +set fs_game osp +set net_ip {0} +set net_port {1} +exec {2} +set sv_hostname {3}", 
                 cbAddreses.SelectedItem.ToString(), 
                 tbPort.Text, 
                 tbCfgName.Text, //name of .cfg
                 tbHostName.Text);
 
-            quake = Process.Start("Quake3.exe", parametrs);
-            
-            isRun = true;
+            quake.StartInfo.Arguments = options;
+            isRun = quake.Start();
+            btnStart.Enabled = false;
+            btnStop.Enabled = true;
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -190,6 +204,8 @@ namespace quake_ServerStarter
                 {
                     quake.Kill();
                     quake.Close();
+                    btnStart.Enabled = true;
+                    btnStop.Enabled = false;
                 }
             }
             catch (NullReferenceException)
@@ -219,19 +235,25 @@ namespace quake_ServerStarter
         }
         private void btnHelp_Click(object sender, EventArgs e)
         {
+            about = String.Format(LocRM.GetString("strVersion") + ": {0}\n",
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             MessageBox.Show(about, LocRM.GetString("strAbout"));
+            //for v0.3 need about
         }
-        private void Message_Show(string errtext, DialogType type)
+        private void MsgShow(string text, DialogType boxtype)
         {
-            switch (type)
+            //localized text output to msgbox with typed localized title
+            string type = "";
+            switch (boxtype)
             {
                 case DialogType.Error:
-                    MessageBox.Show(LocRM.GetString(errtext), LocRM.GetString("strError"));
+                    type = "strError";
                     break;
                 case DialogType.Warning:
-                    MessageBox.Show(LocRM.GetString(errtext), LocRM.GetString("strWarning"));
+                    type = "strWarning";
                     break;
             }
+            MessageBox.Show(LocRM.GetString(text), LocRM.GetString(type));
         }
     }
 }
