@@ -28,7 +28,11 @@
 * __For v0.2__
 
 - [x] Full supporting for multilanguage
+<<<<<<< HEAD
 - [x] Refactor code
+=======
+- [ ] Refactor code
+>>>>>>> origin/master
 
 * __For v0.3__
 
