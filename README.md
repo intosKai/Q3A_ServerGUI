@@ -9,6 +9,7 @@
 - Save all parameters
 - Safely run the server
 - Safely stop the server
+- Supporting english and russian language 
 
 ###Information
 
@@ -20,14 +21,14 @@
 
 ###Versions
 
-- master: 0.2.1
+- master: 0.2.2
 
 ###Tasks
 
 * __For v0.2__
 
-- [ ] Full supporting for multilanguage
-- [ ] Refactor code
+- [x] Full supporting for multilanguage
+- [x] Refactor code
 
 * __For v0.3__
 
@@ -49,5 +50,9 @@
 
 - [ ] Fix bags and errors
 - [ ] Release! :boom:
+
+* __For v1.1__
+
+- [ ] New .ini loading system
 
 **Copyright 2015 intosKai(Petr Ivanov)**
